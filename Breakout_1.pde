@@ -18,11 +18,16 @@ float brickD;
 int[] x;
 int[] y;
 
+//brick position placements:
+int n;
+
 //ball value: Player default
 float ballX, ballY, ballD;
 
 //velocity of ball:
+float randomized;
 float ballVelocityX, ballVelocityY;
+
 
 // Key Variables: -------------------------------
 boolean aKey, dKey, wKey, sKey;
@@ -34,26 +39,45 @@ boolean leftKey, rightKey, upKey, downKey;
 
 void setup() {
   size(1200, 800);
-  
+
   //paddle positions + size:
-  paddleX = width/2;
-  paddleY = height; 
+  paddleX = width / 2;
+  paddleY = height;
   paddleD = 150;
-  
+
   //bricks array:
-  brickD = 100;
-  x = new int[3];
-  y = new int[3];
-  
+  brickD = 50;
+  int n = 7;
+  x = new int[n];
+  y = new int[n];
+
   x[0] = 100;
   y[0] = 100;
-  
+
   x[1] = width / 2;
   y[1] = 100;
-  
+
   x[2] = 1100;
   y[2] = 100;
   
+  x[3] = 100;
+  y[3] = 200;
+  
+  x[4] = width / 2;
+  y[4] = 200;
+  
+  x[5] = 1100;
+  y[5] = 200;
+
+
+  //ball position + velocity:
+  ballX = width / 2;
+  ballY = height / 2;
+  ballD = 17;
+
+  //velocity:
+  ballVelocityX = 0;
+  ballVelocityY = 3;
 }
 
 void draw() {
@@ -62,7 +86,7 @@ void draw() {
 
 void game() {
   background(blue);
-  
+
   //paddle -- Player A
   fill(white);
   stroke(white);
@@ -70,11 +94,44 @@ void game() {
   if (aKey) paddleX -= 5;
   if (dKey) paddleX += 5;
   
-  //bricks: 3 different positions
-  circle(x[0], y[0], brickD);
-  circle(x[1], y[1], brickD);
-  circle(x[2], y[2], brickD);
+  //paddle + ball interactions:
+  if ( dist(paddleX, paddleY, ballX, ballY) < paddleD / 2 + ballD / 2) {
+    ballVelocityX = (ballX - paddleX) / 10;
+    ballVelocityY = (ballY - paddleY) / 10;
+  }
+
+  //bricks: different positions
   
+  int i = 0;
+  while ( i < 6) {
+    circle(x[i], y[i], brickD);
+    i += 1;
+      if ( dist(paddleX, paddleY, x[i], y[i]) < paddleD / 2 + brickD / 2) {
+        ballVelocityX = (ballX - x[i]) / 10;
+        ballVelocityY = (ballY - y[i]) / 10;  
+    } 
+  }
+
+
+
+  // ball: Player Default
+  fill(white);
+  stroke(black);
+  strokeWeight(2);
+  circle(ballX, ballY, ballD);
+
+  // Ball movement
+  ballX += ballVelocityX;
+  ballY += ballVelocityY;
+  
+  //boundaries of the ball
+  if (ballX > width || ballX < 0) {
+    ballVelocityX *= -1;
+  }
+
+  if (ballY > height || ballY < 0) {
+    ballVelocityY *= -1;
+  }
 }
 
 
