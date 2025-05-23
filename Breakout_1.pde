@@ -35,14 +35,14 @@ boolean leftKey, rightKey, upKey, downKey;
 
 
 
-//array list:
+
 
 void setup() {
   size(1200, 800);
 
   //paddle positions + size:
   paddleX = width / 2;
-  paddleY = height;
+  paddleY = height + 7;
   paddleD = 150;
 
   //bricks array:
@@ -91,9 +91,10 @@ void game() {
   fill(white);
   stroke(white);
   circle(paddleX, paddleY, paddleD);
-  if (aKey) paddleX -= 5;
-  if (dKey) paddleX += 5;
+  if (aKey && paddleX > paddleD / 2 + 2) paddleX -= 5;
+  if (dKey && paddleX < width - paddleD / 2 - 4) paddleX += 5;
   
+
   //paddle + ball interactions:
   if ( dist(paddleX, paddleY, ballX, ballY) < paddleD / 2 + ballD / 2) {
     ballVelocityX = (ballX - paddleX) / 10;
@@ -106,9 +107,9 @@ void game() {
   while ( i < 6) {
     circle(x[i], y[i], brickD);
     i += 1;
-      if ( dist(paddleX, paddleY, x[i], y[i]) < paddleD / 2 + brickD / 2) {
-        ballVelocityX = (ballX - x[i]) / 10;
-        ballVelocityY = (ballY - y[i]) / 10;  
+      if ( dist(ballX, ballY, x[i], y[i]) < ballD / 2 + brickD / 2) {
+        ballVelocityX = (ballX - x[i]) / 5;
+        ballVelocityY = (ballY - y[i]) / 5;  
     } 
   }
 
