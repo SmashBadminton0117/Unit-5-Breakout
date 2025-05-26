@@ -3,12 +3,13 @@
 // May 21st 2025
 
 //Color Palette:
-color white      = 255;
-color black      = 0000000;
-color darkPurple = #42213D;
-color pink       = #F57FEF;
-color blue       = #5576F7;
-color green      = #7E8C1F;
+color white       = 255;
+color black       = 0000000;
+color blue1       = #62D0F4;
+color blue2       = #54B8F4;
+color blue3       = #4DAAF3;
+color blue4       = #4399F3;
+color blue        = #347EF2;
 
 //paddle values:
 float paddleX, paddleY, paddleD;
@@ -52,7 +53,7 @@ void setup() {
   //bricks array list:
   brickD = 50;
   int cols = 7;
-  int rows = 3;
+  int rows = 4;
   n = cols * rows;
 
   int row = 0;
@@ -62,9 +63,9 @@ void setup() {
   y = new int[n];
 
   int startX = 100;
-  int spacingX = 140;
+  int spacingX = 167;
   int startY = 100;
-  int spacingY = 70;
+  int spacingY = 87;
 
   while (row < rows) {
     int col = 0;
@@ -103,13 +104,11 @@ void game() {
 
   //points + life system:
   textSize(27);
-  String sp = str(points);
-  String sl = str(life);
 
   text("POINTS:", width / 8, height - 30);
   text("LIFE:", width - 270, height - 30);
-  text(sp, width - 950, height - 30);
-  text(sl, width - 210, height - 30);
+  text(points, width - 950, height - 30);
+  text(life, width - 210, height - 30);
 
 
   //paddle -- Player A
@@ -128,17 +127,26 @@ void game() {
 
   //bricks: different positions
 
-  int i = 0;
-  while ( i < n) {
-    circle(x[i], y[i], brickD);
+  //int i = 0;
 
-    if ( dist(ballX, ballY, x[i], y[i]) < ballD / 2 + brickD / 2) {
-      ballVelocityX = (ballX - x[i]) / 5;
-      ballVelocityY = (ballY - y[i]) / 5;
-    }
-    i++;
-  }
+  //while (i < n) {
+  //  int rowIndex = i / 7;
 
+  //  stroke(white);
+  //  strokeWeight(1);
+  //  if (rowIndex == 0) fill(blue4);
+  //  else if (rowIndex == 1) fill(blue3);
+  //  else if (rowIndex == 2) fill(blue2);
+  //  else if (rowIndex == 3) fill(blue1);
+
+  //  circle(x[i], y[i], brickD);
+
+  //  if ( dist(ballX, ballY, x[i], y[i]) < ballD / 2 + brickD / 2) {
+  //    ballVelocityX = (ballX - x[i]) / 5;
+  //    ballVelocityY = (ballY - y[i]) / 5;
+  //  }
+  //  i++;
+  //}
 
 
   // ball: Player Default
@@ -165,6 +173,35 @@ void game() {
     ballX = width / 2;
     ballY = height / 2;
     life -= 1;
+  }
+
+  int i = 0;
+  while ( i < n ) {
+    manageBricks (i);
+    i++;
+  }
+}
+
+void manageBricks (int i) {
+  int i = 0;
+
+  while (i < n) {
+    int rowIndex = i / 7;
+
+    stroke(white);
+    strokeWeight(1);
+    if (rowIndex == 0) fill(blue4);
+    else if (rowIndex == 1) fill(blue3);
+    else if (rowIndex == 2) fill(blue2);
+    else if (rowIndex == 3) fill(blue1);
+
+    circle(x[i], y[i], brickD);
+
+    if ( dist(ballX, ballY, x[i], y[i]) < ballD / 2 + brickD / 2) {
+      ballVelocityX = (ballX - x[i]) / 5;
+      ballVelocityY = (ballY - y[i]) / 5;
+    }
+    i++;
   }
 }
 
