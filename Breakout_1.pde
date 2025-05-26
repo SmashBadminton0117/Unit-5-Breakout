@@ -27,6 +27,10 @@ float ballX, ballY, ballD;
 //velocity of ball:
 float randomized;
 float ballVelocityX, ballVelocityY;
+'
+
+//points + life system:
+int points, life;
 
 
 // Key Variables: -------------------------------
@@ -45,29 +49,33 @@ void setup() {
   paddleY = height + 7;
   paddleD = 150;
 
-  //bricks array:
+  //bricks array list:
   brickD = 50;
-  int n = 7;
+  int cols = 7;
+  int rows = 3;
+  n = cols * rows;
+
+  int row = 0;
+  int index = 0;
+
   x = new int[n];
   y = new int[n];
 
-  x[0] = 100;
-  y[0] = 100;
+  int startX = 100;
+  int spacingX = 140;
+  int startY = 100;
+  int spacingY = 70;
 
-  x[1] = width / 2;
-  y[1] = 100;
-
-  x[2] = 1100;
-  y[2] = 100;
-  
-  x[3] = 100;
-  y[3] = 200;
-  
-  x[4] = width / 2;
-  y[4] = 200;
-  
-  x[5] = 1100;
-  y[5] = 200;
+  while (row < rows) {
+    int col = 0;
+    while (col < cols) {
+      x[index] = startX + col * spacingX;
+      y[index] = startY + row * spacingY;
+      index++;
+      col++;
+    }
+    row++;
+  }
 
 
   //ball position + velocity:
@@ -78,14 +86,31 @@ void setup() {
   //velocity:
   ballVelocityX = 0;
   ballVelocityY = 3;
+
+  //points + life system calculations:
+  points = 0;
+  life = 3;
 }
+
 
 void draw() {
   game();
 }
 
 void game() {
+  //background color of the game
   background(blue);
+
+  //points + life system:
+  textSize(27);
+  String sp = str(points);
+  String sl = str(life);
+
+  text("POINTS:", width / 8, height - 30);
+  text("LIFE:", width - 270, height - 30);
+  text(sp, width - 950, height - 30);
+  text(sl, width - 210, height - 30);
+
 
   //paddle -- Player A
   fill(white);
@@ -93,7 +118,7 @@ void game() {
   circle(paddleX, paddleY, paddleD);
   if (aKey && paddleX > paddleD / 2 + 2) paddleX -= 5;
   if (dKey && paddleX < width - paddleD / 2 - 4) paddleX += 5;
-  
+
 
   //paddle + ball interactions:
   if ( dist(paddleX, paddleY, ballX, ballY) < paddleD / 2 + ballD / 2) {
@@ -102,15 +127,16 @@ void game() {
   }
 
   //bricks: different positions
-  
+
   int i = 0;
-  while ( i < 6) {
+  while ( i < n) {
     circle(x[i], y[i], brickD);
-    i += 1;
-      if ( dist(ballX, ballY, x[i], y[i]) < ballD / 2 + brickD / 2) {
-        ballVelocityX = (ballX - x[i]) / 5;
-        ballVelocityY = (ballY - y[i]) / 5;  
-    } 
+
+    if ( dist(ballX, ballY, x[i], y[i]) < ballD / 2 + brickD / 2) {
+      ballVelocityX = (ballX - x[i]) / 5;
+      ballVelocityY = (ballY - y[i]) / 5;
+    }
+    i++;
   }
 
 
@@ -124,14 +150,21 @@ void game() {
   // Ball movement
   ballX += ballVelocityX;
   ballY += ballVelocityY;
-  
+
   //boundaries of the ball
-  if (ballX > width || ballX < 0) {
+  if (ballX > width - ballD / 2 || ballX < 0 + ballD / 2) {
     ballVelocityX *= -1;
   }
 
-  if (ballY > height || ballY < 0) {
+  if (ballY < 0 + ballD / 2) {
     ballVelocityY *= -1;
+  }
+
+  //Separate Function: When ball passes the paddle
+  if (ballY > height + ballD / 2 + 17) {
+    ballX = width / 2;
+    ballY = height / 2;
+    life -= 1;
   }
 }
 
