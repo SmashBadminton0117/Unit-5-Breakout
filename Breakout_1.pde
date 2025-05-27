@@ -19,8 +19,13 @@ float brickD;
 int[] x;
 int[] y;
 
+int tempX, tempY;
+
 //brick position placements:
 int n;
+
+//brick placements:
+boolean[] alive;
 
 //ball value: Player default
 float ballX, ballY, ballD;
@@ -28,7 +33,7 @@ float ballX, ballY, ballD;
 //velocity of ball:
 float randomized;
 float ballVelocityX, ballVelocityY;
-'
+
 
 //points + life system:
 int points, life;
@@ -52,41 +57,38 @@ void setup() {
 
   //bricks array list:
   brickD = 50;
-  int cols = 7;
-  int rows = 4;
-  n = cols * rows;
-
-  int row = 0;
-  int index = 0;
+  n = 44;
 
   x = new int[n];
   y = new int[n];
+  alive = new boolean[n];
 
-  int startX = 100;
-  int spacingX = 167;
-  int startY = 100;
-  int spacingY = 87;
+  tempX = 100;
+  tempY = 100;
 
-  while (row < rows) {
-    int col = 0;
-    while (col < cols) {
-      x[index] = startX + col * spacingX;
-      y[index] = startY + row * spacingY;
-      index++;
-      col++;
+  int i = 0;
+  while ( i < n ) {
+    alive[i] = true;
+    x[i] = tempX;
+    y[i] = tempY;
+    tempX += 100;
+
+    if ( tempX == width ) {
+      tempX = 100;
+      tempY += 100;
     }
-    row++;
+    i++;
   }
 
 
   //ball position + velocity:
   ballX = width / 2;
-  ballY = height / 2;
+  ballY = height / 2 + 50;
   ballD = 17;
 
   //velocity:
   ballVelocityX = 0;
-  ballVelocityY = 3;
+  ballVelocityY = 2;
 
   //points + life system calculations:
   points = 0;
@@ -127,26 +129,26 @@ void game() {
 
   //bricks: different positions
 
-  //int i = 0;
+  int i = 0;
 
-  //while (i < n) {
-  //  int rowIndex = i / 7;
+  while (i < n) {
+    int rowIndex = i / 7;
 
-  //  stroke(white);
-  //  strokeWeight(1);
-  //  if (rowIndex == 0) fill(blue4);
-  //  else if (rowIndex == 1) fill(blue3);
-  //  else if (rowIndex == 2) fill(blue2);
-  //  else if (rowIndex == 3) fill(blue1);
+    stroke(white);
+    strokeWeight(1);
+    if (rowIndex == 0) fill(blue4);
+    else if (rowIndex == 1) fill(blue3);
+    else if (rowIndex == 2) fill(blue2);
+    else if (rowIndex == 3) fill(blue1);
 
-  //  circle(x[i], y[i], brickD);
+    circle(x[i], y[i], brickD);
 
-  //  if ( dist(ballX, ballY, x[i], y[i]) < ballD / 2 + brickD / 2) {
-  //    ballVelocityX = (ballX - x[i]) / 5;
-  //    ballVelocityY = (ballY - y[i]) / 5;
-  //  }
-  //  i++;
-  //}
+    if ( dist(ballX, ballY, x[i], y[i]) < ballD / 2 + brickD / 2) {
+      ballVelocityX = (ballX - x[i]) / 5;
+      ballVelocityY = (ballY - y[i]) / 5;
+    }
+    i++;
+  }
 
 
   // ball: Player Default
@@ -171,37 +173,40 @@ void game() {
   //Separate Function: When ball passes the paddle
   if (ballY > height + ballD / 2 + 17) {
     ballX = width / 2;
-    ballY = height / 2;
+    ballY = height / 2 + 50;
     life -= 1;
   }
 
-  int i = 0;
+  //Manage bricks: breaking bricks
+
   while ( i < n ) {
-    manageBricks (i);
+    if ( alive[i] == true ) {
+      manageBricks (i);
+    }
     i++;
   }
 }
 
-void manageBricks (int i) {
-  int i = 0;
 
-  while (i < n) {
-    int rowIndex = i / 7;
 
-    stroke(white);
-    strokeWeight(1);
-    if (rowIndex == 0) fill(blue4);
-    else if (rowIndex == 1) fill(blue3);
-    else if (rowIndex == 2) fill(blue2);
-    else if (rowIndex == 3) fill(blue1);
 
-    circle(x[i], y[i], brickD);
+void manageBricks(int i) {
+  int rowIndex = i / 7;
 
-    if ( dist(ballX, ballY, x[i], y[i]) < ballD / 2 + brickD / 2) {
-      ballVelocityX = (ballX - x[i]) / 5;
-      ballVelocityY = (ballY - y[i]) / 5;
-    }
-    i++;
+  stroke(white);
+  strokeWeight(1);
+  if (rowIndex == 0) fill(blue4);
+  else if (rowIndex == 1) fill(blue3);
+  else if (rowIndex == 2) fill(blue2);
+  else if (rowIndex == 3) fill(blue1);
+
+  circle(x[i], y[i], brickD);
+
+  // Brick and ball collision
+  if (dist(ballX, ballY, x[i], y[i]) < ballD / 2 + brickD / 2) {
+    ballVelocityX = (ballX - x[i]) / 5;
+    ballVelocityY = (ballY - y[i]) / 5;
+    alive[i] = false;
   }
 }
 
