@@ -16,6 +16,11 @@ void Intro() {
   //Button to --> mode == PLAY
   rect(width / 2, height / 2 + 170, 150, 70);
   button();
+  
+  //tactile button:
+  tactile(width / 2, height / 2 + 170, 150, 70);
+  fill(white);
+  rect(width / 2, height / 2 + 170, 150, 70);
 
   if (mouseX > width / 2 - 75 && mouseX < width / 2 + 75 && mouseY > height / 2 + 170 - 35 && mouseY < height / 2 + 170 + 35) {
     if (mousePressed) {
@@ -27,6 +32,12 @@ void Intro() {
 void button() {
   textSize(57);
   textAlign(CENTER, CENTER);
-  fill(#A2A1A1);
   text("PLAY", width / 2, height / 2 + 170);
+}
+
+void tactile (int x, int y, int w, int h) {
+  if (mouseX > width / 2 - 75 && mouseX < width / 2 + 75 && mouseY > height / 2 + 170 - 35 && mouseY < height / 2 + 170 + 35) {
+    fill(red(white), green(white), blue(white), 200);
+  }
+  rect(width / 2, height / 2 + 170, 150, 70);
 }
