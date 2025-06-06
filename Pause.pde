@@ -22,8 +22,39 @@ void pausescreen() {
     if (mousePressed) {
       mode = GAME;
     }
+
+    //Pause Button:
+    pauseButtonClicks(width - 100, height - 50, 60, 60, 20);
+    pauseButton();
+
+    if (mouseX > width - 130 && mouseX < width / 2 + 130 && mouseY > height - 50 - 30 && mouseY < height - 50 + 30) {
+      if (mousePressed) {
+        mode = PAUSE;
+      }
+    }
   }
 }
+
+
+void pauseButton() {
+  noStroke();
+  rect(width - 100, height - 50, 60, 60, 20);
+  image(pauseButton, width - 125, height - 75, 50, 50);
+}
+
+void pauseButtonClicks(int x, int y, int w, int h, int c) {
+  // Detect mouse hover:
+  if (mouseX > width - 130 && mouseX < width / 2 + 130 && mouseY > height - 50 - 30 && mouseY < height - 50 + 30) {
+    fill(0);
+    //fill(255, 255, 255, 175);
+  } else {
+    fill(255, 255, 255, 125);
+  }
+  stroke(white);
+  strokeWeight(3);
+  rect(x, y, w, h, 20);
+}
+
 
 void buttonPause() {
   textSize(57);
