@@ -59,6 +59,8 @@ PImage[] gif;
 int numberOfFrames;
 int f = 0;
 
+//Pause Button:
+PImage pauseButton;
 
 
 
@@ -75,6 +77,9 @@ void setup() {
     gif[f] = loadImage("frame_"+f+"_delay-0.1s.gif");
     f++;
   }
+  
+  //Pause Button Image:
+  pauseButton = loadImage("pauseButton.png");
 
 
 
