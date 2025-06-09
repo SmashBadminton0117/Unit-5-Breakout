@@ -1,3 +1,5 @@
+import processing.sound.*;
+
 // Lawrence Mo
 // Unit 5 Project: Breakout
 // May 21st 2025
@@ -62,11 +64,31 @@ int f = 0;
 //Pause Button:
 PImage pauseButton;
 
+//Sound Library:
+SoundFile bouncing;
+SoundFile scoring;
+SoundFile intro;
+SoundFile pause;
+SoundFile winning;
+SoundFile losing;
+
 
 
 void setup() {
   //Paper size:
   size(1200, 800);
+
+  //Sound Files:
+  bouncing = new SoundFile(this, "bouncingMusic.wav");
+  scoring = new SoundFile(this, "scoringMusic.wav");
+  intro = new SoundFile(this, "MUSIC.mp3");
+  pause = new SoundFile(this, "pauseButton.wav");
+  winning = new SoundFile(this, "youWin.wav");
+  losing = new SoundFile(this, "youLose.wav");
+  
+  //Music: Background Music
+  intro.loop();
+  intro.amp(1);
 
   //Zoom Loop:
   numberOfFrames = 33;
@@ -77,7 +99,7 @@ void setup() {
     gif[f] = loadImage("frame_"+f+"_delay-0.1s.gif");
     f++;
   }
-  
+
   //Pause Button Image:
   pauseButton = loadImage("pauseButton.png");
 
