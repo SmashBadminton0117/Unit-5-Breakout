@@ -13,18 +13,26 @@ void gameover() {
   fill(255);
   textFont(Breakout);
   textSize(177);
-  text("GAME OVER", width / 2, height / 2);
-
-  // Button to --> mode == PLAY AGAIN == INTRO
-  buttonGameOver();
-  gameoverClicks(width / 2, height / 2 + 170, 220, 70);
-
-  // Button:
-  if (mouseX > width / 2 - 110 && mouseX < width / 2 + 110 && mouseY > height / 2 + 170 - 35 && mouseY < height / 2 + 170 + 35) {
-    if (mousePressed) {
-      mode = INTRO;
-    }
+  if ( life == 0 ) {
+    text("YOU LOSE!", width / 2, height / 2);
+  } else {
+    text("YOU WIN!", width / 2, height / 2);
   }
+  
+
+
+// Button to --> mode == PLAY AGAIN == INTRO
+buttonGameOver();
+gameoverClicks(width / 2, height / 2 + 170, 220, 70);
+
+// Button:
+if (mouseX > width / 2 - 110 && mouseX < width / 2 + 110 && mouseY > height / 2 + 170 - 35 && mouseY < height / 2 + 170 + 35) {
+  if (mousePressed) {
+    mode = INTRO;
+    points = 0;
+    life = 3;
+  }
+}
 }
 
 void buttonGameOver() {
@@ -46,4 +54,3 @@ void gameoverClicks(int x, int y, int w, int h) {
   strokeWeight(3);
   rect(x, y, w, h, 20);
 }
-
