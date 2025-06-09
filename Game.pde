@@ -4,11 +4,16 @@ void game() {
 
   //points + life system:
   textSize(27);
-  
+
   text("POINTS:", width / 8, height - 30);
   text("LIFE:", width - 270, height - 30);
-  text(points, width - 950, height - 30);
+  text(points, width - 980, height - 30);
   text(life, width - 210, height - 30);
+
+  //Pause Button:
+  pauseButton();
+  pauseButtonClicks(width - 100, height - 50, 60, 60, 20);
+  image(pauseButton, width - 130, height - 80, 60, 60);
 
 
   //paddle -- Player A
@@ -45,6 +50,11 @@ void game() {
     ballVelocityY *= -1;
   }
 
+  //Finish game:
+  if ( points == 44 ) {
+    mode = GAMEOVER;
+  }
+
   //Separate Function: When ball passes the paddle
   if (ballY > height + ballD / 2 + 17) {
     ballX = width / 2;
@@ -58,7 +68,6 @@ void game() {
   }
 
   //Manage bricks by brick: breaking bricks
-
   int i = 0;
   while ( i < n ) {
     if ( alive[i] == true ) {
@@ -69,6 +78,34 @@ void game() {
 }
 
 
+void pauseButton() {
+  noStroke();
+  rect(width - 100, height - 50, 60, 60, 20);
+}
+
+void pauseButtonClicks(int x, int y, int w, int h, int c) {
+  // Detect mouse hover:
+  if (mouseX >= x - 30 && mouseX <= x + w - 30 && mouseY >= y - 30 && mouseY <= y + h - 30) {
+    fill(255, 255, 255, 150);
+  } else {
+    fill(255, 255, 255, 255);
+  }
+  stroke(white);
+  strokeWeight(3);
+  rect(x, y, w, h, 20);
+}
+
+void mousePressed() {
+  int x = width - 130;
+  int y = height - 80;
+  int w = 60;
+  int h = 60;
+
+  if (mouseX >= x && mouseX <= x + w &&
+    mouseY >= y && mouseY <= y + h) {
+    mode = PAUSE;
+  }
+}
 
 
 void manageBricks(int i) {
@@ -88,10 +125,10 @@ void manageBricks(int i) {
     ballVelocityX = (ballX - x[i]) / 5;
     ballVelocityY = (ballY - y[i]) / 5;
     alive[i] = false;
-  }
-}
-
-void gameClicks() {
-  if (true) {
+    points += 1;
+    //if ( points += 1 ) {
+    //  scoring.stop();
+    //  scoring.play();
+    //}
   }
 }
