@@ -34,7 +34,7 @@ void button() {
 }
 
 void tactile(int x, int y, int w, int h) {
-  // Detect mouse hover: 
+  // Detect mouse hover:
   if (mouseX > width / 2 - 75 && mouseX < width / 2 + 75 && mouseY > height / 2 + 170 - 35 && mouseY < height / 2 + 170 + 35) {
     fill(255, 255, 255, 150);
   } else {
