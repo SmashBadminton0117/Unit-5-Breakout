@@ -85,7 +85,7 @@ void setup() {
   pause = new SoundFile(this, "pauseButton.wav");
   winning = new SoundFile(this, "youWin.wav");
   losing = new SoundFile(this, "youLose.wav");
-  
+
   //Music: Background Music
   intro.loop();
   intro.amp(1);
@@ -171,6 +171,4 @@ void draw() {
   } else {
     println(" Mode Error: Mode is " + mode);
   }
-
-  //game();
 }
