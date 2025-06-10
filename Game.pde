@@ -28,6 +28,8 @@ void game() {
   if ( dist(paddleX, paddleY, ballX, ballY) < paddleD / 2 + ballD / 2) {
     ballVelocityX = (ballX - paddleX) / 10;
     ballVelocityY = (ballY - paddleY) / 10;
+    bouncing.stop();
+    bouncing.play();
   }
 
 
@@ -62,6 +64,12 @@ void game() {
     ballVelocityX = 0;
     ballVelocityY = 2;
     life -= 1;
+
+    //Sound Effects:
+    losing.stop();
+    losing.play();
+
+    //Different modes:
     if ( life == 0 ) {
       mode = GAMEOVER;
     }
@@ -126,9 +134,7 @@ void manageBricks(int i) {
     ballVelocityY = (ballY - y[i]) / 5;
     alive[i] = false;
     points += 1;
-    //if ( points += 1 ) {
-    //  scoring.stop();
-    //  scoring.play();
-    //}
+    scoring.stop();
+    scoring.play();
   }
 }
