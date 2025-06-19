@@ -57,6 +57,30 @@ void gameover() {
       mode = INTRO;
       points = 0;
       life = 3;
+
+      brickD = 50;
+      n = 44;
+
+      x = new int[n];
+      y = new int[n];
+      alive = new boolean[n];
+
+      tempX = tempY = 100;
+
+
+      int i = 0;
+      while ( i < n ) {
+        x[i] = tempX;
+        y[i] = tempY;
+        alive[i] = true;
+        tempX += 100;
+
+        if ( tempX == width ) {
+          tempX = 100;
+          tempY += 100;
+        }
+        i++;
+      }
     }
   }
 }
